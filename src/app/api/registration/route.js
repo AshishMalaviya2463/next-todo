@@ -1,0 +1,41 @@
+import dbConnect from "@/app/backend/database/conn";
+import User from "@/app/backend/models/userModel";
+import { NextResponse } from "next/server";
+import bcrypt from 'bcryptjs';
+
+export async function POST(req, res) {
+    try {
+        const body = await req.json()
+        await dbConnect();
+        const existingUser = await User.findOne({ email: body.email });
+
+        if (existingUser) {
+            return NextResponse.json({
+                message: 'Email already exists',
+            }, {
+                status: 400
+            })
+        }
+
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(body.password, salt);
+
+        await User.create({
+            ...body,
+            password: hashedPassword
+        });
+
+        return NextResponse.json({
+            message: "Registration sucessfull."
+        }, {
+            status: 201
+        })
+
+    } catch (err) {
+        return NextResponse.json({
+            message: "Error : " + err
+        }, {
+            status: 500
+        })
+    }
+}

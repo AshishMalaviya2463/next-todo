@@ -1,0 +1,312 @@
+ :root {
+  --primary-color: white;
+  --secondary-color: rgb(61, 68, 73);
+  --highlight-color: #3282b8;
+
+  --dt-status-available-color: greenyellow;
+  --dt-status-away-color: lightsalmon;
+  --dt-status-offline-color: lightgray;
+
+  --dt-padding: 12px;
+  --dt-padding-s: 6px;
+  --dt-padding-xs: 2px;
+
+  --dt-border-radius: 3px;
+
+  --dt-background-color-container: #2a3338;
+  --dt-border-color: var(--secondary-color);
+  --dt-bg-color: var(--highlight-color);
+  --dt-text-color: var(--primary-color);
+  --dt-bg-active-button: var(--highlight-color);
+  --dt-text-color-button: var(--primary-color);
+  --dt-text-color-active-button: var(--primary-color);
+  --dt-hover-cell-color: var(--highlight-color);
+  --dt-even-row-color: var(--secondary-color);
+  --dt-focus-color: var(--highlight-color);
+  --dt-input-background-color: var(--secondary-color);
+  --dt-input-color: var(--primary-color);
+}
+ 
+ *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #080710 !important;
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1845ad,
+        #23a2f6
+    ) !important;
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    ) !important;
+    right: -30px;
+    bottom: -80px;
+}
+form{
+    width: 400px;
+    background-color: rgba(255,255,255,0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff !important;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07) !important;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #e5e5e5 !important;
+}
+.button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #080710 !important ;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.social{
+  margin-top: 30px;
+  display: flex;
+}
+
+.mt-15px{
+    margin-top: 15px !important;
+}
+
+.mt-2_5rem{
+    margin-top: 2.5rem !important;
+}
+
+.error{
+    color: red !important;
+    font-size: 14px !important;
+}
+
+a:hover {
+  color: #7f8ff4 !important;
+}
+.todo_container {
+    margin-top: 10vh;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.uppercase {
+  text-transform: uppercase !important;
+}
+.send_btn {
+    width: 100px;
+    height: 2.85rem;
+  display: inline-block !important;
+  background: transparent !important;
+  color: inherit !important;
+  font: inherit !important;
+  border: 0 !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  transition: all 200ms ease-in !important;
+  cursor: pointer !important;
+}
+.btn--primary {
+  background: #7f8ff4 !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 2px !important;
+}
+.btn--primary:hover {
+  background: #6c7ff2 !important;
+}
+
+.active{
+    background: #475cd0 !important;
+}
+
+.btn--primary:active {
+  background: #7f8ff4 !important;
+  box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.2) !important;
+}
+.btn--inside {
+  margin-left: -5.5rem !important;
+}
+.form__field {
+  width: 50rem !important;
+  background: #fff !important;
+  color: #a3a3a3 !important;
+  font: inherit !important;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  padding: 22px 7rem 22px 18px !important;
+}
+
+.material-icons {
+  font-size: 16px;
+}
+
+.datatable-container {
+  font-family: sans-serif;
+  background-color: var(--dt-background-color-container);
+  border-radius: var(--dt-border-radius);
+  color: var(--dt-text-color);
+  max-width: 1140px;
+  min-width: 950px;
+  margin: 0 auto;
+  font-size: 12px;
+  margin-top: 5vh;
+}
+
+.datatable-container .datatable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.datatable-container .datatable,
+.datatable-container .datatable th,
+.datatable-container .datatable td {
+  padding: var(--dt-padding) var(--dt-padding);
+}
+
+.datatable-container .datatable th {
+  font-weight: bolder;
+  text-align: left;
+  border-bottom: solid 1px var(--dt-border-color);
+}
+
+.datatable-container .datatable td {
+  border-bottom: solid 1px var(--dt-border-color);
+}
+
+.datatable-container .datatable tbody tr{
+    height: 3.5rem !important;
+}
+
+.datatable-container .datatable tbody tr:nth-child(even) {
+  background-color: var(--dt-even-row-color);
+}
+
+.datatable-container .datatable tbody tr:hover {
+  background-color: var(--dt-hover-cell-color);
+}
+
+.datatable-container .datatable tbody tr .available::after,
+.datatable-container .datatable tbody tr .away::after,
+.datatable-container .datatable tbody tr .offline::after {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.datatable-container .datatable tbody tr .available::after {
+  content: "Online";
+  color: var(--dt-status-available-color);
+}
+
+.datatable-container .datatable tbody tr .away::after {
+  content: "Away";
+  color: var(--dt-status-away-color);
+}
+
+.datatable-container .datatable tbody tr .offline::after {
+  content: "Offline";
+  color: var(--dt-status-offline-color);
+}
+
+.datatable-container .datatable tbody tr .available::before,
+.datatable-container .datatable tbody tr .away::before,
+.datatable-container .datatable tbody tr .offline::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.datatable-container .datatable tbody tr .available::before {
+  background-color: var(--dt-status-available-color);
+}
+
+.datatable-container .datatable tbody tr .away::before {
+  background-color: var(--dt-status-away-color);
+}
+
+.datatable-container .datatable tbody tr .offline::before {
+  background-color: var(--dt-status-offline-color);
+}
+
+input[type="checkbox"]{
+    height: 20px !important;
+    width: 20px !important;
+    margin-left: 1rem;
+}
+
+.cursor-pointer{
+  cursor: pointer !important;
+}
+
+.list_type_btn{
+  width: 10rem !important;
+    border-radius: 5px !important;
+}
