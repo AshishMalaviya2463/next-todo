@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react'
 import TodoList from '../components/TodoList'
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { TodoModel } from '../backend/models/todoModel';
 import axios from 'axios';
-import Link from 'next/link';
-import ProtectRoutes from '../components/ProtectRoutes';
 import { authorizationHeaderToken } from '../constant';
 import { useRouter } from 'next/navigation';
 

@@ -14,7 +14,7 @@ export async function POST(req, res) {
             const validPass = await bcrypt.compare(body.password, existingUser.password)
             const userData = existingUser.toJSON()
             if (validPass) {
-                var token = await jwt.sign(userData, 'todoLogin123456', {
+                var token = await jwt.sign(userData, process.env.JWT_SECRET, {
                     expiresIn: "24h"
                 });
                 return NextResponse.json({

@@ -1,13 +1,10 @@
 const mongoose = require("mongoose")
 
-const MONGODB_URL = "mongodb://localhost:27017/todoes";
-
-if (!MONGODB_URL) {
+if (!process.env.MONGODB_URL) {
     throw new Error(
         "Please define the MONGODB_URI environment variable inside .env.local"
     )
 }
-
 
 let cached = global.mongoose;
 
@@ -27,7 +24,7 @@ const dbConnect = async () => {
             bufferCommands: false
         };
 
-        cached.promise = mongoose.connect(MONGODB_URL, opts).then((mongoose) => {
+        cached.promise = mongoose.connect(process.env.MONGODB_URL, opts).then((mongoose) => {
             return mongoose
         })
     }
