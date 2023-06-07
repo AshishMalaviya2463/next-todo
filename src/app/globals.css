@@ -386,6 +386,17 @@
    display: none !important;
  }
 
+ h1 {
+   color: rgb(219, 217, 217) !important;
+ }
+
+ .changing_text {
+   padding: 0px 8px !important;
+   background: #6516b3;
+   box-shadow: inset 9px 9px 18px #4c1186,
+     inset -9px -9px 18px #7e1ce0;
+ }
+
  @media (max-width: 1440px) {
    .register_form_container {
      height: 110vh;

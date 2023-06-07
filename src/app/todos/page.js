@@ -8,21 +8,32 @@ import { authorizationHeaderToken } from '../constant';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodoAction, deleteTodoAction, editTodoAction, getAllTodoesAction } from '../redux/actions/todoAction';
+import TextTransition, { presets } from 'react-text-transition';
 
 const page = () => {
 
     const [todo, setTodo] = useState("")
     const [listType, setListType] = useState(1)
     const [editTodo, setEditTodo] = useState({})
+    const [index, setIndex] = React.useState(0);
     const router = useRouter()
     const dispatch = useDispatch()
     const { authDetails, todoesData } = useSelector(state => state)
+    const TEXTS = ['Productivity', 'Organization', 'Efficiency', 'Focus', 'Clarity'];
 
     useEffect(() => {
         authDetails.isLoggedIn ?
             dispatch(getAllTodoesAction(authorizationHeaderToken(authDetails.token), router))
             :
             router.push("/login")
+    }, [])
+
+    useEffect(() => {
+        const intervalId = setInterval(
+            () => setIndex((index) => index + 1),
+            3000,
+        );
+        return () => clearTimeout(intervalId);
     }, [])
 
     const addEditDisabled = todo.trim().length === 0 || (editTodo?.todo !== undefined && editTodo.todo === todo)
@@ -58,8 +69,11 @@ const page = () => {
         dispatch(deleteTodoAction(data._id, authorizationHeaderToken(authDetails.token), router))
     }
 
+
+
     return (
         <div className='container'>
+            <h1 className='m-0 p-0 mt-3 text-center'>Unlock Your <TextTransition className='d-inline-block m-0 changing_text' springConfig={presets.wobbly}>{TEXTS[index % TEXTS.length]}</TextTransition>    Potential with our TODO List!</h1>
             <div className="todo_container">
                 <input type="text" className="form__field" placeholder="Enter TODO" value={todo} onChange={(e) => setTodo(e.target.value)} />
                 {
