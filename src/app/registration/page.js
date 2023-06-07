@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { registrationAction } from '../redux/actions/authAction'
 
-const registration = () => {
+const Registration = () => {
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -116,4 +116,4 @@ const registration = () => {
     )
 }
 
-export default registration
+export default Registration
