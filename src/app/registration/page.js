@@ -1,13 +1,23 @@
 'use client'
 
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { registrationAction } from '../redux/actions/authAction'
 
 const page = () => {
 
     const router = useRouter()
+    const dispatch = useDispatch()
+    const { authDetails } = useSelector(state => state)
+
+    useEffect(() => {
+        if (authDetails.isLoggedIn) {
+            router.push("/todos")
+        }
+    }, [])
+
     const [userDetails, setUserDetails] = useState({
         name: "",
         phone: "",
@@ -17,6 +27,16 @@ const page = () => {
     })
 
     const [error, setError] = useState({})
+
+    const clearStateData = () => {
+        setUserDetails({
+            name: "",
+            phone: "",
+            email: "",
+            password: "",
+            cpassword: ""
+        })
+    }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -56,35 +76,18 @@ const page = () => {
         const valid = handleValidation()
 
         if (valid) {
-            axios.post("/api/registration", {
+            dispatch(registrationAction({
                 name: userDetails.name,
                 phone: userDetails.phone,
                 email: userDetails.email,
                 password: userDetails.password
-            })
-                .then(data => {
-                    if (data.status === 201) {
-                        alert("Registration Sccessfull.")
-                        router.push("/login")
-                        setUserDetails({
-                            name: "",
-                            phone: "",
-                            email: "",
-                            password: "",
-                            cpassword: ""
-                        })
-                    }
-                })
-                .catch(err => {
-                    alert(err.response.data.message)
-                })
-
+            }, router, clearStateData))
 
         }
     }
 
     return (
-        <div>
+        <div className='register_form_container'>
             <div className="background">
                 <div className="shape" />
                 <div className="shape" />

@@ -30,11 +30,11 @@ export async function POST(req, res) {
             { new: true, runValidators: true }
         )
 
-        const todoes = await Todos.find()
+        const todoes = await Todos.find({ userId: getAuth._id })
 
         return await NextResponse.json({
             data: todoes,
-            message: "Todo updated sucessfully"
+            message: "Todo updated successfully"
         }, {
             status: 200
         })
@@ -68,11 +68,11 @@ export async function DELETE(req, res) {
         await dbConnect();
         await Todos.findByIdAndRemove(id)
 
-        const todoes = await Todos.find()
+        const todoes = await Todos.find({ userId: getAuth._id })
 
         return await NextResponse.json({
             data: todoes,
-            message: "Todo deleted sucessfully"
+            message: "Todo deleted successfully"
         }, {
             status: 200
         })

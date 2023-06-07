@@ -1,16 +1,18 @@
 'use client'
 import { redirect } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 const ProtectRoutes = ({ children }) => {
 
-    const [token, setToken] = useState(null)
+    const { authDetails } = useSelector(state => state)
+    const [token, setToken] = useState(authDetails.token)
 
     useEffect(() => {
-        setToken(localStorage.getItem("token"))
+        setToken(authDetails.token)
     }, [])
 
-    if (!token) {
+    if (!token || token === null) {
         if (window.location.pathname.includes("/registration") || window.location.pathname.includes("/login")) {
             return children
         } else {

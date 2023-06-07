@@ -4,32 +4,25 @@ import React, { useEffect, useState } from 'react'
 import TodoList from '../components/TodoList'
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import axios from 'axios';
 import { authorizationHeaderToken } from '../constant';
 import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodoAction, deleteTodoAction, editTodoAction, getAllTodoesAction } from '../redux/actions/todoAction';
 
 const page = () => {
 
     const [todo, setTodo] = useState("")
-    const [todoesData, setTodoesData] = useState([])
     const [listType, setListType] = useState(1)
     const [editTodo, setEditTodo] = useState({})
     const router = useRouter()
+    const dispatch = useDispatch()
+    const { authDetails, todoesData } = useSelector(state => state)
 
     useEffect(() => {
-        axios.get("/api/todos", authorizationHeaderToken)
-            .then(res => {
-                if (res.status === 200) {
-                    setTodoesData(res.data.data)
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    localStorage.removeItem("token")
-                    alert("Token expired. Please refresh the page and log in again.")
-                    router.push("/login")
-                }
-            })
+        authDetails.isLoggedIn ?
+            dispatch(getAllTodoesAction(authorizationHeaderToken(authDetails.token), router))
+            :
+            router.push("/login")
     }, [])
 
     const addEditDisabled = todo.trim().length === 0 || (editTodo?.todo !== undefined && editTodo.todo === todo)
@@ -37,23 +30,11 @@ const page = () => {
     const handleAddTodo = async () => {
         const todoData = {
             todo,
-            status: false
+            status: false,
+            userId: authDetails.user._id
         }
 
-        await axios.post("/api/todos", todoData, authorizationHeaderToken)
-            .then(res => {
-                if (res.status === 200) {
-                    setTodoesData(res.data.data)
-                    setTodo("")
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    localStorage.removeItem("token")
-                    alert("Token expired. Please refresh the page and log in again.")
-                    router.push("/login")
-                }
-            })
+        dispatch(addTodoAction(todoData, authorizationHeaderToken(authDetails.token), router, setTodo))
     }
 
     const handleClickEdit = (data) => {
@@ -62,57 +43,23 @@ const page = () => {
     }
 
     const handleEditTodo = async () => {
-        await axios.post(`/api/todos/${editTodo._id}`, { todo }, authorizationHeaderToken)
-            .then(res => {
-                if (res.status === 200) {
-                    setTodoesData(res.data.data)
-                    setTodo("")
-                    setEditTodo({})
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    localStorage.removeItem("token")
-                    alert("Token expired. Please refresh the page and log in again.")
-                    router.push("/login")
-                }
-            })
+        const clearEdit = () => {
+            setTodo("")
+            setEditTodo({})
+        }
+        dispatch(editTodoAction(editTodo._id, { todo }, authorizationHeaderToken(authDetails.token), router, clearEdit))
     }
 
     const handleStatusChange = async (todo) => {
-        await axios.post(`/api/todos/${todo._id}`, { status: !todo.status }, authorizationHeaderToken)
-            .then(res => {
-                if (res.status === 200) {
-                    setTodoesData(res.data.data)
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    localStorage.removeItem("token")
-                    alert("Token expired. Please refresh the page and log in again.")
-                    router.push("/login")
-                }
-            })
+        dispatch(editTodoAction(todo._id, { status: !todo.status }, authorizationHeaderToken(authDetails.token), router))
     }
 
     const handleClickDelete = async (data) => {
-        await axios.delete(`/api/todos/${data._id}`, authorizationHeaderToken)
-            .then(res => {
-                if (res.status === 200) {
-                    setTodoesData(res.data.data)
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    localStorage.removeItem("token")
-                    alert("Token expired. Please refresh the page and log in again.")
-                    router.push("/login")
-                }
-            })
+        dispatch(deleteTodoAction(data._id, authorizationHeaderToken(authDetails.token), router))
     }
 
     return (
-        <>
+        <div className='container'>
             <div className="todo_container">
                 <input type="text" className="form__field" placeholder="Enter TODO" value={todo} onChange={(e) => setTodo(e.target.value)} />
                 {
@@ -138,7 +85,7 @@ const page = () => {
                 </ButtonGroup>
             </div>
             <TodoList todoes={todoesData} handleStatusChange={handleStatusChange} listType={listType} onClickDelete={handleClickDelete} handleClickEdit={handleClickEdit} />
-        </>
+        </div>
     )
 }
 

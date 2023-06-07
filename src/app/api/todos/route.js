@@ -1,5 +1,6 @@
 import dbConnect from "@/app/backend/database/conn";
 import Todos from "@/app/backend/models/todoModel";
+import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { authMiddleware } from "../authMiddleware";
@@ -21,13 +22,16 @@ export async function POST(req, res) {
         const body = await req.json()
 
         await dbConnect();
-        await Todos.create(body)
+        await Todos.create({
+            ...body,
+            userId: new ObjectId(body.userId)
+        })
 
-        const todoes = await Todos.find()
+        const todoes = await Todos.find({ userId: getAuth._id })
 
         return await NextResponse.json({
             data: todoes,
-            message: "Todo created sucessfully"
+            message: "Todo created successfully"
         }, {
             status: 200
         })
@@ -56,7 +60,7 @@ export async function GET(req, res) {
         }
 
         await dbConnect();
-        const todoes = await Todos.find()
+        const todoes = await Todos.find({ userId: getAuth._id })
 
         return await NextResponse.json({
             data: todoes

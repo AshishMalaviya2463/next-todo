@@ -15,11 +15,17 @@ export async function POST(req, res) {
             const userData = existingUser.toJSON()
             if (validPass) {
                 var token = await jwt.sign(userData, process.env.JWT_SECRET, {
-                    expiresIn: "24h"
+                    expiresIn: "1h"
                 });
                 return NextResponse.json({
-                    message: 'Login Sucessfull.',
-                    token
+                    message: 'Login Successfull.',
+                    token,
+                    user: {
+                        _id: existingUser._id,
+                        name: existingUser.name,
+                        email: existingUser.email,
+                        phone: existingUser.phone,
+                    }
                 }, {
                     status: 200
                 })

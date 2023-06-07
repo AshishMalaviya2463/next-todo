@@ -1,13 +1,24 @@
 'use client'
 
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginAction } from '../redux/actions/authAction'
 
 const page = () => {
 
     const router = useRouter()
+
+    const dispatch = useDispatch()
+    const { authDetails } = useSelector(state => state)
+
+    useEffect(() => {
+        if (authDetails.isLoggedIn) {
+            router.push("/todos")
+        }
+    }, [])
+
     const [userDetails, setUserDetails] = useState({
         email: "",
         password: ""
@@ -40,18 +51,12 @@ const page = () => {
         e.preventDefault()
         const valid = handleValidation()
         if (valid) {
-            axios.post("/api/login", userDetails)
-                .then(data => {
-                    alert(data.data.message)
-                    localStorage.setItem("token", data.data.token)
-                    router.push("/todos")
-                })
-                .catch(err => alert(err.response.data.message))
+            dispatch(loginAction(userDetails, router))
         }
     }
 
     return (
-        <div>
+        <div className='login_form_container'>
             <div className="background">
                 <div className="shape" />
                 <div className="shape" />
