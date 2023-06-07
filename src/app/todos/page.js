@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodoAction, deleteTodoAction, editTodoAction, getAllTodoesAction } from '../redux/actions/todoAction';
 import TextTransition, { presets } from 'react-text-transition';
 
-const page = () => {
+const todos = () => {
 
     const [todo, setTodo] = useState("")
     const [listType, setListType] = useState(1)
@@ -103,4 +103,4 @@ const page = () => {
     )
 }
 
-export default page
+export default todos

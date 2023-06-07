@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginAction } from '../redux/actions/authAction'
 
-const page = () => {
+const login = () => {
 
     const router = useRouter()
 
@@ -76,4 +76,4 @@ const page = () => {
     )
 }
 
-export default page
+export default login
